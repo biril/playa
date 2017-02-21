@@ -1,0 +1,29 @@
+.uiFooter {
+  position: relative; // Parent of .logo
+  padding: 15px; // Keep in sync with top / left of .logo
+  border-top: 2px solid #DDD;
+  line-height: 18px;
+  color: #757585;
+  background: #F3F3F4;
+}
+
+.copyright {
+  text-align: center; // (~)
+}
+
+.logo {
+  display: none; // (~)
+  position: absolute; // Child of .uiFooter / Parent of .editModeLabel
+  z-index: 0;
+  top: 0px;
+  left: 8px;
+  width: 46px;
+  height: 46px;
+  opacity: 0.5;
+}
+
+// When we hit adequate width, we gain the logo on the left and all text docks to the right
+@media (min-width: 340px) {
+  .copyright {text-align: right;}
+  .logo {display: block;}
+}

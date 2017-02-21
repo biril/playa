@@ -1,0 +1,13 @@
+playa.js
+playa.spec.js
+playa.css
+modules.scss
+*.scss.json
+*.scss.module
+node_modules/
+*.sublime-project
+*.sublime-workspace
+npm-debug.log
+npm-debug.log.*
+.eslintcache
+.eslintspeccache

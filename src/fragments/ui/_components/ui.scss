@@ -1,0 +1,12 @@
+.ui {
+  width: 100%;
+  @media (min-width: 980px) {width: 980px;} // Stop expanding after 980px
+  margin: 0 auto;
+  font-size: 14px;
+}
+
+.content {/* NADA */}
+
+.header {/* NADA */}
+
+.footer {margin-top: 50px;}

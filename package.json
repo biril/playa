@@ -1,0 +1,92 @@
+{
+  "name": "playa",
+  "version": "0.0.1",
+  "description": "Playa",
+  "main": "index.html",
+  "config": {
+    "dev_server_port": 8765
+  },
+  "aliasify": {
+    "replacements": {
+      "playa/prop-types": "./src/lib/prop-types",
+      "playa/request-dispatcher-factory": "./src/lib/request-dispatcher-factory",
+      "playa/component-store-factory": "./src/lib/component-store-factory"
+    },
+    "appliesTo": {
+      "includeExtensions": [
+        ".js"
+      ]
+    }
+  },
+  "scripts": {
+    "spec:lint": "eslint --ext .spec.js --ext .spec.jsx --parser-options=ecmaVersion:6 --env jasmine --cache --cache-location './.eslintspeccache' ./src/",
+    "spec:build": "browserify -d -t [ babelify --presets [ react ] ] -t aliasify --node -u 'node_modules/**/*' -x 'react/addons' -x 'react/lib/ReactContext' -x 'react/lib/ExecutionEnvironment' `find src/ -iname '*\\.spec\\.js*'` -o playa.spec.js",
+    "spec": "mocha --require scripts/spec-browser-env playa.spec.js",
+    "spec:lint-build-and-run": "npm run spec:lint && npm run spec:build && npm run spec",
+    "spec:watch-faster": "watchify -v -d -t [ babelify --presets [ react ] ] -t aliasify --node -u 'node_modules/**/*' -x 'react/addons' -x 'react/lib/ReactContext' -x 'react/lib/ExecutionEnvironment' `find src/ -iname '*\\.spec\\.js*'` -o 'playa.spec.js' & onchange playa.spec.js -- npm run spec",
+    "spec:watch": "onchange 'src/**/*.spec.js' 'src/**/*.spec.jsx' -v -- npm run spec:lint-build-and-run",
+    "js:lint": "eslint --ext .js --ext .jsx --ignore-pattern '*.spec.js*' --cache ./",
+    "js:build": "browserify -d -t [ babelify --presets [ react ] ] -t aliasify src/main.js --fast -o playa.js",
+    "js:build:prod": "NODE_ENV=production browserify -t [ babelify --presets [ react ] ] -t aliasify ./src/main.js | uglifyjs -c > playa.js",
+    "js:watch-faster": "watchify -v -d -t [ babelify --presets [ react ] ] -t aliasify src/main.js -o playa.js",
+    "js:watch": "onchange main.js 'src/**/*.js' 'src/**/*.jsx' -v -- npm run lint-and-build",
+    "style:lint": "echo \"CSS lint is still TODO\" && exit 0",
+    "style:build": "node-sass --source-comments style/style.scss playa.css",
+    "style:build:prod": "node-sass --output-style=compressed style/style.scss playa.css",
+    "style:collect-modules-and-build": "npm run style:collect-modules && npm run style:build",
+    "style:collect-modules-and-build:prod": "npm run style:collect-modules && npm run style:build:prod",
+    "style:collect-modules-and-build-when-module-changes": "onchange 'src/**/*.scss.module' -v -- npm run style:collect-modules-and-build",
+    "style:collect-modules": "echo \"/* Modules collected on `date` */\" > ./style/modules.scss && find ./src -iname '*.scss.module' -exec echo '@import \"{}\";' >> ./style/modules.scss \\;",
+    "style:collect-modules-when-module-changes": "onchange 'src/**/*.scss.module' -v -- npm run style:collect-modules",
+    "style:create-modules": "find ./src -iname '*.scss' -exec npm run style:create-module -- -o '{}.module' '{}' \\;",
+    "style:create-module": "postcss -u autoprefixer -u postcss-modules -s postcss-scss",
+    "style:create-module-when-styles-change": "onchange 'src/**/*.scss' -v -- npm run style:create-module -- -o '{{changed}}.module' '{{changed}}'",
+    "test": "npm run spec:lint-build-and-run",
+    "style:watch": "npm run style:create-module-when-styles-change & npm run style:collect-modules-and-build-when-module-changes &",
+    "lint": "npm run js:lint && npm run style:lint",
+    "build": "npm run js:build && npm run style:collect-modules-and-build",
+    "build:prod": "npm run js:build:prod && npm run style:collect-modules-and-build:prod",
+    "lint-and-build": "npm run lint && npm run build",
+    "watch": "npm run js:watch & npm run style:watch &",
+    "watch-faster": "npm run js:watch-faster & npm run style:watch &",
+    "serve": "ws --port $npm_package_config_dev_server_port",
+    "start": "npm run lint-and-build && { npm run serve & npm run watch-faster & }"
+  },
+  "author": "biril <alexlambiris@gmail.com>",
+  "private": true,
+  "devDependencies": {
+    "aliasify": "^2.0.0",
+    "autoprefixer": "^6.3.7",
+    "babel-preset-react": "^6.5.0",
+    "babelify": "^7.2.0",
+    "browserify": "^13.0.0",
+    "chai": "^3.5.0",
+    "enzyme": "^2.6.0",
+    "eslint": "^3.15.0",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-react": "^6.9.0",
+    "jsdom": "^9.8.3",
+    "local-web-server": "^1.2.1",
+    "mocha": "^3.2.0",
+    "node-sass": "^3.8.0",
+    "onchange": "^2.2.0",
+    "postcss": "^5.1.0",
+    "postcss-cli": "^2.5.2",
+    "postcss-modules": "^0.5.0",
+    "postcss-scss": "^0.1.8",
+    "react-addons-test-utils": "^15.4.1",
+    "sinon": "^1.17.6",
+    "sinon-chai": "^2.8.0",
+    "watchify": "^3.7.0"
+  },
+  "dependencies": {
+    "babel-plugin-module-resolver": "^2.5.0",
+    "backbone": "^1.3.3",
+    "classnames": "^2.2.5",
+    "jquery": "^3.1.1",
+    "q": "^1.4.1",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "underscore": "^1.8.3"
+  }
+}
