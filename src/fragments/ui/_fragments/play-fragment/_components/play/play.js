@@ -2,6 +2,7 @@
 
 var React = require('react');
 var pt = require('playa/prop-types');
+var cn = require('./play.scss.json');
 
 var Play = function(props) {
   return <div className='play' />;

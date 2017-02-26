@@ -33,7 +33,6 @@ var isReactComponent = function(reactComponentMaybe) {
 };
 
 var customPropTypes = {
-
   // Ensure that prop is a Backbone Model with given attributes of given shape `attrsShape`
   backboneModel: function(attrsShape) {
     return React.PropTypes.shape({
@@ -52,7 +51,6 @@ var customPropTypes = {
 
   // Ensure that prop is a component-store containing Components of given `requiredComponentTypes`
   componentStore: withIsRequiredOption(function(requiredComponentTypes) {
-
     if (!_.isArray(requiredComponentTypes)) {
       throw new Error('Invalid argument supplied to componentStore prop-type. Expected array.');
     }
@@ -72,15 +70,16 @@ var customPropTypes = {
     };
   }),
 
-  // Esnure that prop is a React Component
-  reactComponent: function() {
+  // Esnure that prop is a React Component - TODO: Write a proper validator for this as current
+  //  one doesn't really validate much
+  reactComponent: withIsRequiredOption(function() {
     return function(props, propName, componentName) {
       if (!isReactComponent(props[propName])) {
-        return new Error('Invalid prop `' + propName + '` supplied to' +
-          ' `' + componentName + '`. Expected a React Component.');
+        return new Error('Invalid prop `' + propName + '` supplied to' + ' `' + componentName +
+          '`. Expected a React Component.');
       }
     };
-  }
+  })
 };
 
 var extendedPropTypes = _.extend(customPropTypes, React.PropTypes);

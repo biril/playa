@@ -7,8 +7,8 @@ var componentStore = componentStoreFactory.create({
   UiHeader:      require('./_components/header/header'),
   UiFooter:      require('./_components/footer/footer'),
   Logo:          require('./_components/logo/logo'),
-  PlayFragment:  require('./_fragments/play-fragment/play-fragment'),
-  AboutFragment: require('./_fragments/about-fragment/about-fragment')
+  PlayFragment:  require('./_fragments/play-fragment/play-fragment-bootstrap'),
+  AboutFragment: require('./_fragments/about-fragment/about-fragment-bootstrap')
 });
 
 module.exports = componentStore;

@@ -27,14 +27,14 @@ var navigator = (function() {
 }());
 
 // The application's top-level Fragment. It's a _routed_ UI Fragment - basically a thin wrapper
-//  around the UI Fragment, which listens on the given `curRoute` and passes it into the wrapped
-//  UI Fragment as a prop
-var UiFragment = require('./fragments/ui/ui-fragment');
+//  around the UI Fragment, which listens on the given `route` and passes it into the wrapped UI
+//  Fragment as a prop
+var UiFragment = require('./fragments/ui/ui-fragment-bootstrap');
 
 // Render the UI, at given route
-var renderUi = function(curRoute) {
+var renderUi = function(route) {
   var elmUi = document.getElementById('playaUi');
-  var ui = <UiFragment curRoute={curRoute} dispatchRequest={requestDispatcher.dispatch} />;
+  var ui = <UiFragment route={route} dispatchRequest={requestDispatcher.dispatch} />;
   ReactDom.render(ui, elmUi);
 };
 
