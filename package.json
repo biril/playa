@@ -10,7 +10,8 @@
     "replacements": {
       "playa/prop-types": "./src/lib/prop-types",
       "playa/request-dispatcher-factory": "./src/lib/request-dispatcher-factory",
-      "playa/component-store-factory": "./src/lib/component-store-factory"
+      "playa/component-store-factory": "./src/lib/component-store-factory",
+      "playa/fetch-remote-data": "./src/lib/fetch-remote-data"
     },
     "appliesTo": {
       "includeExtensions": [

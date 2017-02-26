@@ -14,8 +14,13 @@ var COMPONENT_NAME_FOR_SECTION_ID = Object.freeze({
 var UiFragment = React.createClass({
   propTypes: {
     childSectionId: pt.string.isRequired,
+    fetchRemoteData: pt.func.isRequired,
     componentStore: pt.componentStore(['AboutFragment', 'PlayFragment']).isRequired,
     dispatchRequest: pt.func.isRequired
+  },
+
+  getInitialState: function() {
+    return {statusMessage: null};
   },
 
   componentWillMount: function() {
@@ -35,6 +40,7 @@ var UiFragment = React.createClass({
     // Forward 'navigate' requests to parent
     this.requestDispatcher.on({
       navigate: _.partial(this.props.dispatchRequest, 'navigate'),
+      fetchRemoteData: this.fetchRemoteData
     });
   },
 
@@ -52,6 +58,19 @@ var UiFragment = React.createClass({
     }());
   },
 
+  //
+  fetchRemoteData: function(remoteDataUrl) {
+    this.props.fetchRemoteData(remoteDataUrl)
+    .then(function(data) {
+      this.props.dispatchRequest('navigate', '/play');
+      this.setState({statusMessage: 'Got remote data ' + data});
+    }.bind(this))
+    .fail(function(error) {
+      this.props.dispatchRequest('navigate', '/play');
+      this.setState({statusMessage: '' + error});
+    }.bind(this));
+  },
+
   render: function() {
     var ChildComponent = this.getChildComponentForSectionId(this.props.childSectionId);
     var dispatchRequest = this.requestDispatcher.dispatch.bind(this.requestDispatcher);
@@ -63,6 +82,7 @@ var UiFragment = React.createClass({
         componentStore={this.props.componentStore}
       >
         <ChildComponent
+          statusMessage={this.state.statusMessage}
           dispatchRequest={dispatchRequest}
           componentStore={this.props.componentStore}
         />

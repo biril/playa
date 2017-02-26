@@ -18,7 +18,8 @@ var Ui = function(props) {
       <footer className={cn.footer}>
         <props.componentStore.UiFooter
           componentStore={props.componentStore}
-          dispatchRequest={props.dispatchRequest} />
+          dispatchRequest={props.dispatchRequest}
+        />
       </footer>
     </div>
   );

@@ -25,8 +25,12 @@ var UiHeader = function(props) {
         <a className={cn.navPlay}  onClick={reqNav('/play')} href="/play">  Play</a>
       </nav>
       */}
-      <div className={cn.searchSection}>
-        <input type='text' className={cn.searchSectionInput} />
+      <div className={cn.searchRemoteDataSection}>
+        <input
+          type='text'
+          className={cn.remoteDataUrlInput}
+          onChange={function(event) {props.dispatchRequest('fetchRemoteData', event.target.value);}}
+        />
       </div>
       <button className={cn.showMenuButton}>
         <svg width="24px" height="24px" viewBox="0 0 48 48">

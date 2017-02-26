@@ -9,6 +9,7 @@ var componentStore = require('./component-store');
 var PlayFragmentBootstrap = function(props) {
   return (
     <PlayFragment
+      statusMessage={props.statusMessage}
       componentStore={componentStore}
       dispatchRequest={props.dispatchRequest}
     />
@@ -16,6 +17,7 @@ var PlayFragmentBootstrap = function(props) {
 };
 
 PlayFragmentBootstrap.propTypes = {
+  statusMessage: pt.string,
   dispatchRequest: pt.func.isRequired
 };
 
