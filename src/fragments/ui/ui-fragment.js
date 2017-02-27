@@ -11,6 +11,8 @@ var COMPONENT_NAME_FOR_SECTION_ID = Object.freeze({
   play: 'PlayFragment'
 });
 
+var STATUS_MESSAGE_READY = 'Ready. Enter a URL to fetch remote data';
+
 var UiFragment = React.createClass({
   propTypes: {
     childSectionId: pt.string.isRequired,
@@ -20,12 +22,13 @@ var UiFragment = React.createClass({
   },
 
   getInitialState: function() {
-    return {statusMessage: null};
+    return {statusMessage: STATUS_MESSAGE_READY};
   },
 
   componentWillMount: function() {
     this.createRequestDispatcher();
     this.startListeningOnRequestDispatcher();
+    this.curFrdTask = {cancel: _.noop}; // Dummy
   },
 
   componentWillUnmount: function() {
@@ -58,17 +61,58 @@ var UiFragment = React.createClass({
     }());
   },
 
+  createFrdTask: function(remoteDataUrl) {
+    var task = {
+      fetch: this.frdTaskFetch,
+      showFetched: this.frdTaskShowFetched,
+      fail: this.frdTaskFail,
+      fin: this.frdTaskFin
+    };
+
+    task.run = function() {
+      task.fetch(remoteDataUrl)
+      .then(task.showFetched)
+      .fail(task.fail)
+      .fin(task.fin);
+      return task;
+    };
+
+    task.cancel = _.partial(_.each, _.functions(this.curFrdTask), function(subTaskName) {
+      task[subTaskName] = _.noop;
+    });
+
+    return task;
+  },
+
+  frdTaskFetch: function(remoteDataUrl) {
+    this.setState({statusMessage: 'Fetching remote data'});
+    return this.props.fetchRemoteData(remoteDataUrl);
+  },
+
+  frdTaskShowFetched: function(remoteData) {
+    this.setState({statusMessage: 'Fetched remote data ' + remoteData});
+  },
+
+  frdTaskFail: function(error) {
+    this.setState({statusMessage: '' + error});
+  },
+
+  frdTaskFin: function() {
+    // TODO: ..
+  },
+
   //
   fetchRemoteData: function(remoteDataUrl) {
-    this.props.fetchRemoteData(remoteDataUrl)
-    .then(function(data) {
-      this.props.dispatchRequest('navigate', '/play');
-      this.setState({statusMessage: 'Got remote data ' + data});
-    }.bind(this))
-    .fail(function(error) {
-      this.props.dispatchRequest('navigate', '/play');
-      this.setState({statusMessage: '' + error});
-    }.bind(this));
+    remoteDataUrl = remoteDataUrl.trim();
+
+    if (!remoteDataUrl) {
+      return;
+    }
+
+    this.props.dispatchRequest('navigate', '/play');
+
+    this.curFrdTask.cancel();
+    this.curFrdTask = this.createFrdTask(remoteDataUrl).run();
   },
 
   render: function() {
