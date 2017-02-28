@@ -7,7 +7,6 @@ var UiFragmentRouted = require('./ui-fragment-routed');
 var UiFragment = require('./ui-fragment');
 var componentStore = require('./component-store');
 var fetchRemoteData = require('playa/fetch-remote-data');
-var mp3Parser = require('mp3-parser');
 
 var UiFragmentBootstrap = function(props) {
   return (
@@ -15,7 +14,6 @@ var UiFragmentBootstrap = function(props) {
       UiFragment={UiFragment}
       route={props.route}
       fetchRemoteData={fetchRemoteData}
-      mp3Parser={mp3Parser}
       componentStore={componentStore}
       dispatchRequest={props.dispatchRequest}
     />

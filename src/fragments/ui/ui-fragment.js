@@ -17,13 +17,15 @@ var UiFragment = React.createClass({
   propTypes: {
     childSectionId: pt.string.isRequired,
     fetchRemoteData: pt.func.isRequired,
-    mp3Parser: pt.shape({readTags: pt.func.isRequired}).isRequired,
     componentStore: pt.componentStore(['AboutFragment', 'PlayFragment']).isRequired,
     dispatchRequest: pt.func.isRequired
   },
 
   getInitialState: function() {
-    return {statusMessage: STATUS_MESSAGE_READY};
+    return {
+      statusMessage: STATUS_MESSAGE_READY,
+      mpegData: null
+    };
   },
 
   componentWillMount: function() {
@@ -88,21 +90,19 @@ var UiFragment = React.createClass({
   },
 
   frdTaskFetch: function(remoteDataUrl) {
-    this.setState({statusMessage: 'Fetching remote data'});
+    this.setState({statusMessage: '[.] Fetching remote data'});
     return this.props.fetchRemoteData(remoteDataUrl);
   },
 
-  frdTaskShowFetched: function(data) {
-    // Read and return descriptions of all tags found up to (and additionally including) the very
-    //  first frame. Returns an array of descriptions which may include that of a located ID3V2 tag,
-    //  of a located Xing / Lame tag and of a located first frame.
-    var tags = this.props.mp3Parser.readTags(data);
-
-    this.setState({statusMessage: 'Fetched remote data ' + JSON.stringify(tags)});
+  frdTaskShowFetched: function(mpegData) {
+    this.setState({
+      statusMessage: '[✔] Fetched remote data',
+      mpegData: mpegData
+    });
   },
 
   frdTaskFail: function(error) {
-    this.setState({statusMessage: '' + error});
+    this.setState({statusMessage: '[×] Error fetching remote data ' + error});
   },
 
   frdTaskFin: function() {
@@ -134,6 +134,7 @@ var UiFragment = React.createClass({
         componentStore={this.props.componentStore}
       >
         <ChildComponent
+          mpegData={this.state.mpegData}
           statusMessage={this.state.statusMessage}
           dispatchRequest={dispatchRequest}
           componentStore={this.props.componentStore}
