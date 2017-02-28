@@ -104,7 +104,7 @@ var UiFragment = React.createClass({
   },
 
   //
-  fetchRemoteData: function(remoteDataUrl) {
+  fetchRemoteData: _.debounce(function(remoteDataUrl) {
     remoteDataUrl = remoteDataUrl.trim();
 
     if (!remoteDataUrl) {
@@ -115,7 +115,7 @@ var UiFragment = React.createClass({
 
     this.curFrdTask.abandon();
     this.curFrdTask = this.createFrdTask(remoteDataUrl).run();
-  },
+  }, 1000),
 
   render: function() {
     var ChildComponent = this.getChildComponentForSectionId(this.props.childSectionId);
