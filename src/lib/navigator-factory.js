@@ -37,11 +37,11 @@ var createNavigator = function(config) {
     // Navigate to route of given path
     navigate: function(routePath) {
       if (curRoute.path === routePath) {
-        console.log('navigator: already at "' + routePath + '". Will not navigate');
+        // console.log('navigator: already at "' + routePath + '". Will not navigate');
         return;
       }
 
-      console.log('navigator: navigating to route of path "' + routePath + '"');
+      // console.log('navigator: navigating to route of path "' + routePath + '"');
 
       // From MDN: Note that just calling `history.pushState()` or `history.replaceState()` won't
       //  trigger a popstate event. The popstate event will be triggered by doing a browser action
