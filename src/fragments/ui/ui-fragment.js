@@ -28,7 +28,7 @@ var UiFragment = React.createClass({
   componentWillMount: function() {
     this.createRequestDispatcher();
     this.startListeningOnRequestDispatcher();
-    this.curFrdTask = {cancel: _.noop}; // Dummy
+    this.curFrdTask = {abandon: _.noop}; // Dummy
   },
 
   componentWillUnmount: function() {
@@ -70,6 +70,7 @@ var UiFragment = React.createClass({
     };
 
     task.run = function() {
+      console.log('FetchRemoteData Task: Running ' + remoteDataUrl);
       task.fetch(remoteDataUrl)
       .then(task.showFetched)
       .fail(task.fail)
@@ -77,7 +78,8 @@ var UiFragment = React.createClass({
       return task;
     };
 
-    task.cancel = _.partial(_.each, _.functions(this.curFrdTask), function(subTaskName) {
+    task.abandon = _.partial(_.each, _.functions(this.curFrdTask), function(subTaskName) {
+      console.log('FetchRemoteData Task: Abandoning ' + remoteDataUrl);
       task[subTaskName] = _.noop;
     });
 
@@ -111,7 +113,7 @@ var UiFragment = React.createClass({
 
     this.props.dispatchRequest('navigate', '/play');
 
-    this.curFrdTask.cancel();
+    this.curFrdTask.abandon();
     this.curFrdTask = this.createFrdTask(remoteDataUrl).run();
   },
 
