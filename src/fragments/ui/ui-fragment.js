@@ -17,6 +17,7 @@ var UiFragment = React.createClass({
   propTypes: {
     childSectionId: pt.string.isRequired,
     fetchRemoteData: pt.func.isRequired,
+    mp3Parser: pt.shape({readTags: pt.func.isRequired}).isRequired,
     componentStore: pt.componentStore(['AboutFragment', 'PlayFragment']).isRequired,
     dispatchRequest: pt.func.isRequired
   },
@@ -91,8 +92,13 @@ var UiFragment = React.createClass({
     return this.props.fetchRemoteData(remoteDataUrl);
   },
 
-  frdTaskShowFetched: function(remoteData) {
-    this.setState({statusMessage: 'Fetched remote data ' + remoteData});
+  frdTaskShowFetched: function(data) {
+    // Read and return descriptions of all tags found up to (and additionally including) the very
+    //  first frame. Returns an array of descriptions which may include that of a located ID3V2 tag,
+    //  of a located Xing / Lame tag and of a located first frame.
+    var tags = this.props.mp3Parser.readTags(data);
+
+    this.setState({statusMessage: 'Fetched remote data ' + JSON.stringify(tags)});
   },
 
   frdTaskFail: function(error) {
