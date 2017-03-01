@@ -15,8 +15,8 @@ var areRoutesEquivalent = function(routeOne, routeTwo) {
 //  at any given time. Will return falsy if no section-id is found for given route-path
 var getChildSectionIdForRoutePath = function(routePath) {
   switch (routePath) {
-    case '/':     return 'about';
-    case '/play': return 'play';
+    case '/':      return 'about';
+    case '/#play': return 'play';
   }
 
   console.log('uiFragment: Cannot get section-id for unexpected route path "' + routePath + '"');

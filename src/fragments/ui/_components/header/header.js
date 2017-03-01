@@ -21,8 +21,8 @@ var UiHeader = function(props) {
       </a>
       {/*
       <nav className={cn.nav}>
-        <a className={cn.navAbout} onClick={reqNav('/')}     href="/about"> About</a>
-        <a className={cn.navPlay}  onClick={reqNav('/play')} href="/play">  Play</a>
+        <a className={cn.navAbout} onClick={reqNav('/')}      href="/about"> About</a>
+        <a className={cn.navPlay}  onClick={reqNav('/#play')} href="/play">  Play</a>
       </nav>
       */}
       <div className={cn.searchRemoteDataSection}>

@@ -117,7 +117,7 @@ var UiFragment = React.createClass({
       return;
     }
 
-    this.props.dispatchRequest('navigate', '/play');
+    this.props.dispatchRequest('navigate', '/#play');
 
     this.curFrdTask.abandon();
     this.curFrdTask = this.createFrdTask(remoteDataUrl).run();

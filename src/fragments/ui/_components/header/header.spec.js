@@ -16,7 +16,7 @@ const cls = _.mapObject(cn, v => `.${v}`);
 
 const createFauxEvent = () => ({preventDefault() {}});
 
-const routes = [{clsKey: 'navAbout', path: '/about'}, {clsKey: 'navPlay', path: '/play'}];
+const routes = [{clsKey: 'navAbout', path: '/'}, {clsKey: 'navPlay', path: '/#play'}];
 
 describe('The UiHeader Component', () => {
 
