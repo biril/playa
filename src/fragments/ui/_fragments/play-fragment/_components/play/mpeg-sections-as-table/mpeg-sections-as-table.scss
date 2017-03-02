@@ -1,0 +1,10 @@
+.mpegSectionsAsTable {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mpegSectionAsTable {
+  margin-top: -1px;
+  &:first-child {margin-top: 0;}
+}
