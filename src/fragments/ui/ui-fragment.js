@@ -90,7 +90,7 @@ var UiFragment = React.createClass({
   },
 
   frdTaskFetch: function(remoteDataUrl) {
-    this.setState({statusMessage: '[.] Fetching remote data'});
+    this.setState({statusMessage: '[…] Fetching remote data'});
     return this.props.fetchRemoteData(remoteDataUrl);
   },
 
@@ -102,7 +102,7 @@ var UiFragment = React.createClass({
   },
 
   frdTaskFail: function(error) {
-    this.setState({statusMessage: '[×] Error fetching remote data ' + error});
+    this.setState({statusMessage: '[✘] Error fetching remote data ► ' + error});
   },
 
   frdTaskFin: function() {
