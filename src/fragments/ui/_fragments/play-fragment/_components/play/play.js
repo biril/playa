@@ -5,11 +5,11 @@ var pt = require('playa/prop-types');
 var cn = require('./play.scss.json');
 
 var Play = function(props) {
-  var mpegTags = props.mpegData && JSON.stringify(props.mp3Parser.readTags(props.mpegData));
+  var mpegTags = props.mpegData && JSON.stringify(props.mp3Parser.readTags(props.mpegData), null, 2);
   return (
     <div className={cn.play}>
       <div className={cn.statusMessage}>{props.statusMessage}</div>
-      <div className={cn.mpegTags}>{mpegTags}</div>
+      <pre className={cn.mpegTags}>{mpegTags}</pre>
     </div>
   );
 };
