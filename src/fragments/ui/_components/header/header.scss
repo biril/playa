@@ -13,10 +13,6 @@
   // margin: 30px 0 30px 40px;
 }
 
-.showMenuButton {
-  display: none;
-}
-
 .searchRemoteDataSection {
   position: absolute;
   top: 0;
@@ -35,17 +31,3 @@
   border-radius: 3px;
   color: #FFF;
 }
-
-// .nav {
-//   display: inline-block;
-//   // margin: 0 40px;
-// }
-//
-// .navAbout,
-// .navPlay {
-//   display: inline-block;
-//   margin-left: 15px;
-//   &:first-child {margin-left: 0px;}
-//   text-transform: uppercase;
-//   cursor: pointer;
-// }

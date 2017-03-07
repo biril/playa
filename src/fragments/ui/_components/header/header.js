@@ -16,15 +16,7 @@ var UiHeader = function(props) {
 
   return (
     <div className={cn.uiHeader}>
-      <a className={cn.logo} onClick={reqNav('/')} href="/">
-        <props.componentStore.Logo />
-      </a>
-      {/*
-      <nav className={cn.nav}>
-        <a className={cn.navAbout} onClick={reqNav('/')}      href="/about"> About</a>
-        <a className={cn.navPlay}  onClick={reqNav('/#play')} href="/play">  Play</a>
-      </nav>
-      */}
+      <a className={cn.logo} onClick={reqNav('/')} href="/"><props.componentStore.Logo /></a>
       <div className={cn.searchRemoteDataSection}>
         <input
           type='text'
@@ -32,11 +24,6 @@ var UiHeader = function(props) {
           onChange={function(event) {props.dispatchRequest('fetchRemoteData', event.target.value);}}
         />
       </div>
-      <button className={cn.showMenuButton}>
-        <svg width="24px" height="24px" viewBox="0 0 48 48">
-          <path d="M6 36h36v-4H6v4zm0-10h36v-4H6v4zm0-14v4h36v-4H6z" />
-        </svg>
-      </button>
     </div>
   );
 };
