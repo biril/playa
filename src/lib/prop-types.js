@@ -70,6 +70,13 @@ var customPropTypes = {
     };
   }),
 
+  requestDispatcher: React.PropTypes.shape({
+    dispatch: React.PropTypes.func.isRequired,
+    on: React.PropTypes.func.isRequired,
+    once: React.PropTypes.func.isRequired,
+    off: React.PropTypes.func.isRequired
+  }),
+
   // Esnure that prop is a React Component - TODO: Write a proper validator for this as current
   //  one doesn't really validate much
   reactComponent: withIsRequiredOption(function() {

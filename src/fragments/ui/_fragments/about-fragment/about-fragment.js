@@ -9,7 +9,7 @@ var AboutFragment = React.createClass({
     encodeURIComponent: pt.func.isRequired,
     componentStore: pt.componentStore(['About']),
     dispatchRequest: pt.func.isRequired,
-    requestDispatcher: pt.object.isRequired // TODO: Define requestDispatcher prop-type
+    requestDispatcher: pt.requestDispatcher.isRequired
   },
 
   componentDidMount: function() {
