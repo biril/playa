@@ -24,33 +24,5 @@ const componentStore = {
 const Dummy = () => <div className='justADummy' />;
 
 describe('The Ui Component', () => {
-  it('should render UiHeader child', () => {
-    const ui = enzyme.shallow(
-      <Ui
-        isEditable={false}
-        dispatchRequest={_.noop}
-        uiContentElement={<div />}
-        componentStore={componentStore}>
-        <Dummy />
-      </Ui>
-    );
-
-    expect(ui.find(componentStore.UiHeader).length).to.equal(1);
-  });
-
-  it('should render UiFooter child propagating isEditable prop', () => {
-    const ui = enzyme.shallow(
-      <Ui
-        isEditable
-        dispatchRequest={_.noop}
-        uiContentElement={<div />}
-        componentStore={componentStore}>
-        <Dummy />
-      </Ui>
-    );
-
-    const uiFooter = ui.find(componentStore.UiFooter);
-    expect(uiFooter.length).to.equal(1);
-    expect(uiFooter.prop('isEditable')).to.be.true;
-  });
+  it('TODO');
 });

@@ -7,7 +7,7 @@ const expect = chai.expect;
 const sinon = require('sinon');
 chai.use(require('sinon-chai'));
 
-const requestDispatcherFactory = require('./request-dispatcher-builder.js'); // MUT
+const requestDispatcherFactory = require('./request-dispatcher-factory.js'); // MUT
 
 describe('The requestDispatcherFactory', () => {
   it('should expose a .create() method that returns a requestDispatcher instance', () => {

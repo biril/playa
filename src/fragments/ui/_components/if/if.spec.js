@@ -10,7 +10,7 @@ const expect = chai.expect;
 const React = require('react');
 const enzyme = require('enzyme');
 
-const If = require('./if.jsx'); // CUT
+const If = require('./if.js'); // CUT
 
 describe('The If Component', () => {
 
