@@ -1,3 +1,5 @@
+/* eslint react/no-set-state: 0 */
+
 'use strict';
 
 var React = require('react');
