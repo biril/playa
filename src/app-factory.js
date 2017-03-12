@@ -2,6 +2,7 @@
 
 var _ = require('underscore');
 _.mixin(require('./lib/underscore-extensions').get());
+_.mixin(_.pick(require('./lib/global-scope'), 'encodeURIComponent', 'decodeURIComponent'));
 
 var React = require('react');
 var ReactDom = require('react-dom');
