@@ -21,6 +21,7 @@ var navigator = (function() {
   }
 
   return require('./lib/navigator-factory').create({
+    isRoutePathWithHash: true,
     pushStateProvider: window.history,
     popStateProvider: window
   });
@@ -40,8 +41,8 @@ var renderUi = function(route) {
 
 // `runApp` preloads all needed resources and kicks off the app
 var runApp = function() {
-  // Peek into current `window.location` and pluck `pathname` to use as path of the app's initial route
-  var initialRoute = {path: window.location.pathname};
+  // Peek into current `window.location` and pluck `hash` to use as path of the app's initial route
+  var initialRoute = {path: '/' + window.location.hash};
 
   renderUi(initialRoute);
 

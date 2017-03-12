@@ -3,13 +3,19 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
 
-// Helper to extract the path from the current location. Will extract a path of '/about' from a
-//  localtion of 'http://host:8765/about'
-var extractPathFromCurLocation = function() {
-  return window.location.pathname;
+// Helper to extract the path from the current location. Will extract path
+// '/about' from location 'http://host:8765/about' or
+// '/#about' from location 'http://host:8765/#about'
+var extractPathFromCurLocation = function(isPathWithHash) {
+  return isPathWithHash ? ('/' + window.location.hash) : window.location.pathname;
 };
 
 // Configured with:
+//  * isRoutePathWithHash: Optionally, a value indicating whether route-paths are expected to start
+//     with a hash, which should be the case if navigation is to be hash-based. In that case, routes
+//     will be in the form '/#someRoute' as opposed to plain '/someRoute'. Generally speaking,
+//     hash-based navigation should is preferred when targetting old browsers or a server-side
+//     capable of delivering all the of the app's routes is not available. False by default
 //  * pushStateProvider: An object with a public `pushState` method. For example, `window.history`.
 //     See https://developer.mozilla.org/en-US/docs/Web/API/History_API
 //  * popStateProvider: An object featuring a public `onpopstate` property to be set to a handler
@@ -30,7 +36,10 @@ var createNavigator = function(config) {
   // 'popstate' is called on browser navigation that is _not_ internally initiated by navigator.
   //  E.g. when the user presses the back or forward button
   config.popStateProvider.onpopstate = function() {
-    setCurRoute({path: extractPathFromCurLocation(), isNavigationInternal: false});
+    setCurRoute({
+      path: extractPathFromCurLocation(config.isRoutePathWithHash),
+      isNavigationInternal: false
+    });
   };
 
   var navigator = {
