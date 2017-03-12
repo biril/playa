@@ -77,6 +77,12 @@ var customPropTypes = {
     off: React.PropTypes.func.isRequired
   }),
 
+  route: React.PropTypes.shape({
+    name: React.PropTypes.string.isRequired,
+    path: React.PropTypes.string.isRequired,
+    params: React.PropTypes.object.isRequired
+  }),
+
   // Esnure that prop is a React Component - TODO: Write a proper validator for this as current
   //  one doesn't really validate much
   reactComponent: withIsRequiredOption(function() {

@@ -28,6 +28,8 @@ var navigator = (function() {
   });
 }());
 
+var resolveRoute = require('./lib/resolve-route');
+
 // The application's top-level Fragment. It's a _routed_ UI Fragment - basically a thin wrapper
 //  around the UI Fragment, which listens on the given `route` and passes it into the wrapped UI
 //  Fragment as a prop
@@ -35,6 +37,9 @@ var UiFragment = require('./fragments/ui/ui-fragment-bootstrap');
 
 // Render the UI, at given route
 var renderUi = function(route) {
+  if (!(route = resolveRoute(route.path))) {
+    return;
+  }
   var elmUi = document.getElementById('playaUi');
   var ui = <UiFragment route={route} dispatchRequest={requestDispatcher.dispatch} />;
   ReactDom.render(ui, elmUi);

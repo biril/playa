@@ -10,6 +10,7 @@ var Ui = function(props) {
     <div className={cn.ui}>
       <header className={cn.header}>
         <props.componentStore.UiHeader
+          remoteDataUrl={props.remoteDataUrl}
           componentStore={props.componentStore}
           dispatchRequest={props.dispatchRequest}
         />
@@ -26,6 +27,7 @@ var Ui = function(props) {
 };
 
 Ui.propTypes = {
+  remoteDataUrl: pt.string.isRequired,
   dispatchRequest: pt.func.isRequired,
   componentStore: pt.componentStore(['UiHeader', 'UiFooter']).isRequired,
   children: pt.element.isRequired // We expect a single child - the UI's content

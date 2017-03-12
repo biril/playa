@@ -16,7 +16,6 @@ var AboutFragment = React.createClass({
 
   componentDidMount: function() {
     this.props.requestDispatcher.on({
-      'navigate': _.partial(this.props.dispatchRequest, 'navigate'),
       'fetchRemoteData': _.partial(this.props.dispatchRequest, 'fetchRemoteData')
     }, this);
   },

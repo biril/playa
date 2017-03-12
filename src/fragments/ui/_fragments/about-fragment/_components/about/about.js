@@ -10,7 +10,7 @@ var REMOTE_DATA_EXAMPLE_URL =
 var About = function(props) {
   var fetchRemoteDataUrl = '/#play/' + props.encodeURIComponent(REMOTE_DATA_EXAMPLE_URL);
 
-  var onClickedRemoteDataExampleUrl = function(event) {
+  var onRemoteDataExampleClicked = function(event) {
     event.preventDefault();
     props.dispatchRequest('fetchRemoteData', REMOTE_DATA_EXAMPLE_URL);
   };
@@ -18,7 +18,7 @@ var About = function(props) {
   return (
     <div className={cn.about}>
       Try fetching remote data.
-      For example <a href={fetchRemoteDataUrl} onClick={onClickedRemoteDataExampleUrl}>this</a>.
+      For example <a href={fetchRemoteDataUrl} onClick={onRemoteDataExampleClicked}>this</a>.
     </div>
   );
 };

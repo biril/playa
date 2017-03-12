@@ -17,7 +17,7 @@ var STATUS_MESSAGE_READY = 'Ready. Enter a URL to fetch remote data';
 
 var UiFragment = React.createClass({
   propTypes: {
-    childSectionId: pt.string.isRequired,
+    route: pt.route.isRequired,
     fetchRemoteData: pt.func.isRequired,
     componentStore: pt.componentStore(['AboutFragment', 'PlayFragment']).isRequired,
     dispatchRequest: pt.func.isRequired
@@ -25,6 +25,7 @@ var UiFragment = React.createClass({
 
   getInitialState: function() {
     return {
+      remoteDataUrl: this.props.route.params.remoteDataUrl || '',
       statusMessage: STATUS_MESSAGE_READY,
       mpegData: null
     };
@@ -34,6 +35,19 @@ var UiFragment = React.createClass({
     this.createRequestDispatcher();
     this.startListeningOnRequestDispatcher();
     this.curFrdTask = {abandon: _.noop}; // Dummy
+
+    var route = this.props.route;
+    if (route.name === 'play' && route.params.remoteDataUrl) {
+      this.fetchRemoteData(route.params.remoteDataUrl);
+    }
+  },
+
+  componentWillReceiveProps: function(nextProps) {
+    var nr = nextProps.route;
+    if (nr.name === 'play' && nr.params.remoteDataUrl) {
+      this.setState({remoteDataUrl: nr.params.remoteDataUrl});
+      this.fetchRemoteData(nr.params.remoteDataUrl);
+    }
   },
 
   componentWillUnmount: function() {
@@ -48,8 +62,10 @@ var UiFragment = React.createClass({
     // Forward 'navigate' requests to parent
     this.requestDispatcher.on({
       navigate: _.partial(this.props.dispatchRequest, 'navigate'),
-      fetchRemoteData: this.fetchRemoteData
-    });
+      fetchRemoteData: function(remoteDataUrl) {
+        this.props.dispatchRequest('navigate', '/#play/' + _.encodeURIComponent(remoteDataUrl));
+      }
+    }, this);
   },
 
   stopListeningOnRequestDispatcher: function() {
@@ -112,26 +128,26 @@ var UiFragment = React.createClass({
   },
 
   //
-  fetchRemoteData: _.debounce(function(remoteDataUrl) {
+  fetchRemoteData: function(remoteDataUrl) {
     remoteDataUrl = remoteDataUrl.trim();
 
     if (!remoteDataUrl) {
       return;
     }
 
-    this.props.dispatchRequest('navigate', '/#play');
-
     this.curFrdTask.abandon();
     this.curFrdTask = this.createFrdTask(remoteDataUrl).run();
-  }, 1000),
+  },
 
   render: function() {
-    var ChildComponent = this.getChildComponentForSectionId(this.props.childSectionId);
+    var childSectionId = this.props.route.name; // The route's name is a good enough child-section id
+    var ChildComponent = this.getChildComponentForSectionId(childSectionId);
     var dispatchRequest = this.requestDispatcher.dispatch.bind(this.requestDispatcher);
     var Ui = this.props.componentStore.Ui;
 
     return (
       <Ui
+        remoteDataUrl={this.state.remoteDataUrl}
         dispatchRequest={dispatchRequest}
         componentStore={this.props.componentStore}
       >
